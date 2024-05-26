@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Cache/etc/cache.xsd">
+    <type name="pokemon_api_response_cache" translate="label description" instance="MW\Pokemon\Model\Cache\ApiResponse">
+        <label>Pokemon API Response Cache</label>
+        <description>Cache for storing Pokemon API responses</description>
+    </type>
+</config>

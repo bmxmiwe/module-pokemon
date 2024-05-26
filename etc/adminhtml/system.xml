@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="pokemon_integration" sortOrder="10" showInWebsite="0" showInStore="0" showInDefault="1" translate="label">
+            <label>Pokemon integration</label>
+            <tab>catalog</tab>
+            <resource>MW_Pokemon::pokemon_integration_settings</resource>
+            <group id="settings" sortOrder="10" showInWebsite="0" showInStore="0" showInDefault="1" translate="label">
+                <label>Settings</label>
+                <field id="enabled" type="select" sortOrder="10" showInWebsite="0" showInStore="0" showInDefault="1" translate="label" canRestore="1">
+                    <label>Integration is enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="api_url" type="text" sortOrder="20" showInWebsite="0" showInStore="0" showInDefault="1" translate="label" canRestore="1">
+                    <label>Integration URL</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

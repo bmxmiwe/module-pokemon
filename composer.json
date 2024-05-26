@@ -1,0 +1,26 @@
+{
+    "name": "mw/module-pokemon",
+    "description": "Module responsible for pokemon functionality",
+    "type": "magento2-module",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Mic Wej",
+            "email": "veywaterdev@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.2",
+        "magento/framework": "^103.0.0",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "MW\\Pokemon\\": ""
+        }
+    }
+}

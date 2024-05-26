@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="mw_pokemon_product_name_plugin" type="MW\Pokemon\Plugin\Model\ProductNamePlugin" />
+    </type>
+    <type name="Magento\Catalog\Block\Product\AbstractProduct">
+        <plugin name="mw_pokemon_product_thumbnail_plugin" type="MW\Pokemon\Plugin\Block\Product\ProductThumbnailPlugin" />
+    </type>
+    <type name="Magento\Catalog\Block\Product\View\Gallery">
+        <plugin name="mw_pokemon_product_image_gallery_plugin" type="MW\Pokemon\Plugin\Block\Product\View\ProductGalleryPlugin" />
+    </type>
+</config>

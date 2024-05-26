@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="MW\Pokemon\Api\Config\ProviderInterface"
+                type="MW\Pokemon\Model\Config\Provider" />
+    <preference for="MW\Pokemon\Api\Data\PokemonDataProviderInterface"
+                type="MW\Pokemon\Model\PokemonDataProvider" />
+    <preference for="MW\Pokemon\Api\PokemonCacheProviderInterface"
+                type="MW\Pokemon\Model\PokemonCacheProvider" />
+
+    <type name="Magento\Framework\App\Cache\TypeListInterface">
+        <arguments>
+            <argument name="types" xsi:type="array">
+                <item name="pokemon_api_response_cache" xsi:type="string">MW\Pokemon\Model\Cache\ApiResponse</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
