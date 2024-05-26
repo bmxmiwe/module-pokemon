@@ -1,6 +1,6 @@
 # MW_Pokemon module
 ------------
-`mw/module-pokemon`
+`bmxmiwe/module-pokemon`
 
 
 ## Description
