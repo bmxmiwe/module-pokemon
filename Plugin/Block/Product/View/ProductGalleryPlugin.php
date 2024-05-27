@@ -15,6 +15,7 @@ class ProductGalleryPlugin
      * @param ProviderInterface $configPovider
      * @param PokemonDataProviderInterface $pokemonDataProvider
      * @param Http $request
+     * @param Json $jsonSerializer
      */
     public function __construct(
         private readonly ProviderInterface $configPovider,

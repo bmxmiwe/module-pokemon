@@ -54,6 +54,10 @@ class PokemonDataProviderTest extends TestCase
      */
     private $pokemonDataProvider;
 
+    /**
+     *
+     * @return void
+     */
     protected function setUp(): void
     {
         $this->cacheProviderMock = $this->createMock(PokemonCacheProviderInterface::class);
@@ -73,6 +77,10 @@ class PokemonDataProviderTest extends TestCase
         );
     }
 
+    /**
+     *
+     * @return void
+     */
     public function testGetPokemonDataReturnsCachedData(): void
     {
         $pokemonName = 'pikachu';
@@ -88,6 +96,10 @@ class PokemonDataProviderTest extends TestCase
         $this->assertEquals($cachedData, $result);
     }
 
+    /**
+     *
+     * @return void
+     */
     public function testGetPokemonDataReturnsApiDataAndCachesIt(): void
     {
         $pokemonName = 'pikachu';
@@ -130,6 +142,10 @@ class PokemonDataProviderTest extends TestCase
         $this->assertEquals(['name' => 'Pikachu', 'image' => 'image_url'], $result);
     }
 
+    /**
+     *
+     * @return void
+     */
     public function testGetPokemonDataHandlesApiException(): void
     {
         $pokemonName = 'pikachu';
@@ -164,6 +180,10 @@ class PokemonDataProviderTest extends TestCase
         $this->assertEquals([], $result);
     }
 
+    /**
+     *
+     * @return void
+     */
     public function testGetPokemonDataHandlesJsonException(): void
     {
         $pokemonName = 'pikachu';
@@ -211,6 +231,7 @@ class PokemonDataProviderTest extends TestCase
     }
 
     /**
+     *
      * @param string $content
      * @return MockObject|(StreamInterface&MockObject)
      */
