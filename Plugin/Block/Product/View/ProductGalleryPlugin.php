@@ -5,6 +5,7 @@ namespace MW\Pokemon\Plugin\Block\Product\View;
 
 use Magento\Catalog\Block\Product\View\Gallery;
 use Magento\Framework\App\Request\Http;
+use Magento\Framework\Serialize\Serializer\Json;
 use MW\Pokemon\Api\Config\ProviderInterface;
 use MW\Pokemon\Api\Data\PokemonDataProviderInterface;
 
@@ -18,7 +19,8 @@ class ProductGalleryPlugin
     public function __construct(
         private readonly ProviderInterface $configPovider,
         private readonly PokemonDataProviderInterface $pokemonDataProvider,
-        private readonly Http $request
+        private readonly Http $request,
+        private readonly Json $jsonSerializer
     ) {
     }
 
@@ -32,11 +34,15 @@ class ProductGalleryPlugin
     public function afterGetGalleryImagesJson(Gallery $subject, string $result): string
     {
         if ($this->request->getFullActionName() === 'catalog_product_view') {
-            $images = json_decode($result, true);
-            $product = $subject->getProduct();
-            $pokemonName = $product->getPokemonName();
+            try {
+                $images = $this->jsonSerializer->unserialize($result);
+            } catch (\Exception $e) {
+
+                return $result;
+            }
+            $pokemonName = $subject->getProduct()->getPokemonName();
             if ($this->configPovider->pokemonModuleIsEnabled() && !empty($pokemonName)) {
-                $pokemonData = $this->pokemonDataProvider->getPokemonData($product->getPokemonName());
+                $pokemonData = $this->pokemonDataProvider->getPokemonData($pokemonName);
                 if (array_key_exists('image', $pokemonData) && is_array($images) && !empty($images)) {
                     foreach ($images as &$image) {
                         if ($image['isMain'] === true) {
@@ -49,6 +55,6 @@ class ProductGalleryPlugin
             }
         }
 
-        return json_encode($images);
+        return (empty($images)) ? $result : $this->jsonSerializer->serialize($images);
     }
 }

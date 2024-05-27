@@ -6,6 +6,7 @@ namespace MW\Pokemon\Model;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Magento\Framework\Message\ManagerInterface;
+use Magento\Framework\Serialize\Serializer\Json;
 use MW\Pokemon\Api\Data\PokemonDataProviderInterface;
 use MW\Pokemon\Api\PokemonCacheProviderInterface;
 use MW\Pokemon\Model\Config\Provider;
@@ -19,13 +20,15 @@ class PokemonDataProvider implements PokemonDataProviderInterface
      * @param LoggerInterface $logger
      * @param Provider $configProvider
      * @param ManagerInterface $messageManager
+     * @param Json $jsonSerializer
      */
     public function __construct(
         private readonly PokemonCacheProviderInterface $cacheProvider,
         private readonly Client $client,
         private readonly LoggerInterface $logger,
         private readonly Provider $configProvider,
-        private readonly ManagerInterface $messageManager
+        private readonly ManagerInterface $messageManager,
+        private readonly Json $jsonSerializer
     ) {
     }
 
@@ -47,15 +50,22 @@ class PokemonDataProvider implements PokemonDataProviderInterface
 
                 return $apiResponse;
             }
-            $apiResponseContent = json_decode($apiResponseContent);
-            if (property_exists($apiResponseContent, 'name')) {
-                $apiResponse['name'] = $apiResponseContent->name;
+            try {
+                $apiResponseContent = $this->jsonSerializer->unserialize($apiResponseContent);
+            } catch (\Exception $e) {
+                $this->logger->error('Wrong API response content. ' . $e->getMessage());
+                $this->messageManager->addErrorMessage(__('Can\'t get pokemon data.'));
+
+                return $apiResponse;
+            }
+            if (array_key_exists('name', $apiResponseContent)) {
+                $apiResponse['name'] = $apiResponseContent['name'];
             } else {
                 $this->messageManager->addErrorMessage(__('Can\'t get pokemon name.'));
             }
-            if (property_exists($apiResponseContent, 'sprites')
-                && property_exists($apiResponseContent->sprites, 'front_default')) {
-                $apiResponse['image'] = $apiResponseContent->sprites->front_default;
+            if (array_key_exists('sprites', $apiResponseContent)
+                && array_key_exists('front_default', $apiResponseContent['sprites'])) {
+                $apiResponse['image'] = $apiResponseContent['sprites']['front_default'];
             } else {
                 $this->messageManager->addErrorMessage(__('Can\'t get pokemon image.'));
             }
